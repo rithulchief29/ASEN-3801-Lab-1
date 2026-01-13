@@ -46,18 +46,19 @@ for i = 1:length(tols)
     Options = odeset(RelTol=tols(i),AbsTol=tols(i));
     [Tout,Yout] = ode45(@ODEFUN,Time_Span,Initial_Condition, Options);
 
-    w_TolModification(i,:) = Yout(:,1);
-    x_TolModification(i,:) = Yout(:,2);
-    y_TolModification(i,:) = Yout(:,3);
-    z_TolModification(i,:) = Yout(:,4);
+    w_TolModification{i}(:) = Yout(:,1);
+    x_TolModification{i}(:) = Yout(:,2);
+    y_TolModification{i}(:) = Yout(:,3);
+    z_TolModification{i}(:) = Yout(:,4);
 end
 
 for i = 1:(length(tols) - 1)
-    w_TolDifference(i) = w_TolModification(i, end) - w_TolModification(end, end);
-    x_TolDifference(i) = x_TolModification(i, end) - x_TolModification(end, end);
-    y_TolDifference(i) = y_TolModification(i, end) - y_TolModification(end, end);
-    z_TolDifference(i) = z_TolModification(i, end) - z_TolModification(end, end);
+    TolDifferences(1,i) = w_TolModification{i}(end) - w_TolModification{end}(end);
+    TolDifferences(2,i) = x_TolModification{i}(end) - x_TolModification{end}(end);
+    TolDifferences(3,i) = y_TolModification{i}(end) - y_TolModification{end}(end);
+    TolDifferences(4,i) = z_TolModification{i}(end) - z_TolModification{end}(end);
 end
+
 
 %% Functions 
 
