@@ -24,9 +24,13 @@ z = Yout(:,4);
 
 LabelTitles = ['w', 'x', 'y', 'z'];
 figure;
+
 for i = 1:4
     subplot(4,1,i)
     hold on;
+    if i == 1
+        title('w, x, y, and z Values w.r.t. Nondimensional Time')
+    end
     grid on;
     plot(Tout,Yout(:,i))
     xlabel('Time (n.d.)');
@@ -34,7 +38,28 @@ for i = 1:4
     xlim(Time_Span)
 end
 
+%% Modification of Tol Values
 
+tols = [(1*10^-2), (1*10^-4), (1*10^-6), (1*10^-8), (1*10^-10), (1*10^-12)];
+
+for i = 1:length(tols)
+    Options = odeset(RelTol=tols(i),AbsTol=tols(i));
+    [Tout,Yout] = ode45(@ODEFUN,Time_Span,Initial_Condition, Options);
+
+    w_TolModification(i,:) = Yout(:,1);
+    x_TolModification(i,:) = Yout(:,2);
+    y_TolModification(i,:) = Yout(:,3);
+    z_TolModification(i,:) = Yout(:,4);
+end
+
+for i = 1:(length(tols) - 1)
+    w_TolDifference(i) = w_TolModification(i, end) - w_TolModification(end, end);
+    x_TolDifference(i) = x_TolModification(i, end) - x_TolModification(end, end);
+    y_TolDifference(i) = y_TolModification(i, end) - y_TolModification(end, end);
+    z_TolDifference(i) = z_TolModification(i, end) - z_TolModification(end, end);
+end
+
+%% Functions 
 
 function dYdt = ODEFUN(Tout,Yout)
 
