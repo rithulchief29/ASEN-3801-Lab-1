@@ -1,12 +1,12 @@
 function [t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename)
 
-FullFileDataset = readmatrix(filename,'NumHeaderLines',5);
+FullFileDataset = readmatrix(filename);
 
 t_vec = FullFileDataset(:,1)./100;
-pos_av_aspen = FullFileDataset(:, [12,13,14]);
-att_av_aspen = FullFileDataset(:, [9,10,11]);
-pos_tar_aspen = FullFileDataset(:, [6,7,8]);
-att_tar_aspen = FullFileDataset(:, [3,4,5]);
+pos_av_aspen = FullFileDataset(:, [11,12,13])';
+att_av_aspen = FullFileDataset(:, [8,9,10])';
+pos_tar_aspen = FullFileDataset(:, [5,6,7])';
+att_tar_aspen = FullFileDataset(:, [2,3,4])';
 
 [av_pos_inert, av_att, tar_pos_inert, tar_att] = ConvertASPENData(pos_av_aspen, att_av_aspen,  pos_tar_aspen, att_tar_aspen);
 

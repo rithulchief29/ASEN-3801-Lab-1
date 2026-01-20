@@ -1,7 +1,7 @@
-filename = '3801_Sec002_Test3.csv';
+filename = '3801_Sec002_Test1.csv';
 
 FullFileDataset = readmatrix(filename, "NumHeaderLines", 5);
 
-A = FullFileDataset(:,[1,3:13]);
+A = FullFileDataset(:,[1,3:14]);
 
-writematrix(A,'3801_Sec002_Test3_Cleaned.csv');
+writematrix(A,'3801_Sec002_Test1_Cleaned.csv');
