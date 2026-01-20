@@ -6,7 +6,7 @@ close all
 
 %% Load and convert data
 
-filename = '3801_Sec002_Test1_Cleaned.csv';
+filename = '3801_Sec002_Test3_Cleaned.csv';
 
 [t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename);
 
