@@ -1,6 +1,6 @@
 % Contributors: Rhys Hanson
 % Course number: ASEN 3801
-% File name: AirRelativeVelocityVectorToWindAngles
+% File name: ODE Solver for Lab 1 Problem 1
 % Created: 1/13/26
 
 clc
@@ -33,7 +33,9 @@ for i = 1:4
     end
     grid on;
     plot(Tout,Yout(:,i))
-    xlabel('Time (n.d.)');
+    if i == 4
+        xlabel('Time (n.d.)');
+    end
     ylabel([LabelTitles(i), ' (n.d.)'])
     xlim(Time_Span)
 end
@@ -65,17 +67,15 @@ end
 function dYdt = ODEFUN(Tout,Yout)
 
 %
-% Inputs: velocity_body = column vector of aircraft air-relative velocity in
-% body coordinates
-% = [u,v,w]’
+% Inputs: Input time value and input values of w,x,y, and z at that time.
 %
-% Outputs: wind_angles = [speed beta alpha]’
-% speed = aircraft airspeed
-% beta = side slip angle
-% alpha = angle of attack
+% Outputs: 
+% dYdt = Vector of change in w, x, y, and z at any given time.
+% 
 %
-% Methodology: Use definitions to calculate wind angles and speed from velocity
-% vector
+% Methodology: Plug in the known values of w,x,y, and z in order to
+% calculate the change in those functions with respect to time which can
+% then be used with the ODE45 function.
 
     w = Yout(1);
     x = Yout(2);
