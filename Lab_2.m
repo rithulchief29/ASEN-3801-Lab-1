@@ -2,7 +2,7 @@ clc;
 clear all;
 close all;
 
-filename ='3801_Sec002_Test3.csv';
+filename ='3801_Sec002_Test3_Cleaned.csv';
 
 [t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename);
 
@@ -94,6 +94,62 @@ ylabel('Psi (degree)');
 title('Psi vs Time for Test 3');
 legend("A/V Angle", "Target Angle", Location="northeastoutside");
 
+%% Question 5
+
+
+DCM321av = zeros(3,3,length(av_att));
+Euler313av = zeros(length(av_att),3);
+
+av_pos_body = zeros(length(av_att),3);
+tar_pos_avBody = zeros(length(av_att),3);
+
+for i = 1:length(av_att)
+
+     DCM321av(:,:,i) = RotationMatrix321(av_att(:,i));
+     DCM321tar(:,:,i) = RotationMatrix321(tar_att(:,i));
+     
+     Euler313av(i,:) = EulerAngles313(DCM321av(:,:,i));
+     Euler313tar(i,:) = EulerAngles313(DCM321tar(:,:,i));
+
+
+    av_pos_body(i,:) = DCM321av(:,:,i)*av_pos_inert(:,i);
+    tar_pos_avBody(i,:) = DCM321av(:,:,i)*tar_pos_inert(:,i); 
+end
+
+
+figure();
+
+subplot(3,1,1);
+plot(t_vec, (Euler313av(:,1).*(180/pi)), 'b', LineWidth=1);
+hold on
+plot(t_vec, (Euler313tar(:,1).*(180/pi)), '--r', LineWidth=1);
+hold off
+xlabel('Time (s)');
+ylabel('Phi (degree)');
+title('Phi vs Time for Test 3');
+legend("A/V Angle", "Target Angle", Location="northeastoutside");
+
+subplot(3,1,2);
+plot(t_vec, (Euler313av(:,2).*(180/pi)), 'b', LineWidth=1);
+hold on
+plot(t_vec, (Euler313tar(:,2).*(180/pi)), '--r', LineWidth=1);
+hold off
+xlabel('Time (s)');
+ylabel('Theta (degree)');
+title('Theta vs Time for Test 3');
+legend("A/V Angle", "Target Angle", Location="northeastoutside");
+
+subplot(3,1,3);
+plot(t_vec, (Euler313av(:,3).*(180/pi)), 'b', LineWidth=1);
+hold on
+plot(t_vec, (Euler313tar(:,3).*(180/pi)), '--r', LineWidth=1);
+hold off
+xlabel('Time (s)');
+ylabel('Psi (degree)');
+title('Psi vs Time for Test 3');
+legend("A/V Angle", "Target Angle", Location="northeastoutside");
+
+
 %% Question 6
 
 
@@ -107,9 +163,22 @@ plot(t_vec, pos_vec_tar(:,2), LineWidth=1);
 plot(t_vec, pos_vec_tar(:,3), LineWidth=1);
 hold off
 
-xlabel('time (s)');
+xlabel('Time (s)');
 ylabel('Target Position');
-title('Position of the target relative to the aerospace vehicle,');
+title('Position of the Target Relative to the Aerospace Vehicle, Inertial Frame');
 legend("X position", "Y position", "Z position")
 grid on;
 
+%% Question 7
+
+
+rel_loc_body = tar_pos_avBody - av_pos_body;
+
+
+figure()
+plot(t_vec,rel_loc_body)
+xlabel('Time (s)');
+ylabel('Target Position');
+title('Position of the Target Relative to the Aerospace Vehicle, Aircraft Body Frame');
+legend("X position", "Y position", "Z position")
+grid on;
