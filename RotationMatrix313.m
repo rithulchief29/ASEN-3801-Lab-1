@@ -1,13 +1,13 @@
 function DCM = RotationMatrix313(attitude313)
-% goal : use the Euler angles for the 3-1-3 rotation sequence to calculate 
-%   the associated DCM.
+% Goal : Use the Euler angles for the 3-1-3 rotation sequence to calculate 
+%   the associated DCM
 % Inputs : attitude313: 3 x 1 vector with the 3-1-3 Euler angles in the 
 %   form attitude313 = [𝛼, 𝛽, 𝛾]T
 % outputs: DCM: the rotation matrix calculated from the Euler angles.
 
-alpha = attitude313(1);
-beta = attitude313(2);
-gamma = attitude313(3);
+alpha = attitude313(1); % assigns angle alpha to 1st row 1st column,[radians]
+beta = attitude313(2); % assigns angle alpha to 1st row 1st column ,[radians]
+gamma = attitude313(3);% assigns angle alpha to 1st row 1st column ,[radians]
 
 R3 = @(angle)[ cos(angle), sin(angle), 0;
             -1*sin(angle), cos(angle), 0;
